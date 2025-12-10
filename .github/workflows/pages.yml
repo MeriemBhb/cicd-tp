@@ -46,10 +46,9 @@ jobs:
           name: github-pages
           path: allure-report
 
-      - run: ls -la allure-report
+      - name: Anyway...
+        run: mv allure-{report,lala} && cp -r allure-lala/* allure-report/
 
-      - name: Publish
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report
+      - name: Deploy Allure report to GH Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
