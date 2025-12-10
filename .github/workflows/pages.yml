@@ -47,7 +47,7 @@ jobs:
           path: allure-report
 
       - name: Anyway...
-        run: mv allure-{report,lala} && cp -r allure-lala/* allure-report/
+        run: mv allure-{report,lala} && mkdir allure-eport && cp -r allure-lala/* allure-report/
 
       - name: Deploy Allure report to GH Pages
         id: deployment
