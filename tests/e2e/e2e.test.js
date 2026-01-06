@@ -41,7 +41,7 @@ describe("E2E POST /hello", () => {
   });
 
   it("responds with Hello world! From Meriem when x-name header is Meriem", async () => {
-    const res = await axios.post(`${baseURL}/hello}`, {
+    const res = await axios.post(`${baseURL}/hello`, {
       headers: {
         "x-name": "Meriem"
       }
