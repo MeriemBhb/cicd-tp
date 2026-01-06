@@ -16,4 +16,9 @@ describe("getGreeting", () => {
   it("returns the hello world message for null input", () => {
     expect(getGreeting(null)).toBe("Hello world!");
   });
+
+  it("throws error for names with too many characters", () => {
+    const longName = "A".repeat(101);
+    expect(() => getGreeting(longName)).toThrow("Name is too long");
+  });
 });

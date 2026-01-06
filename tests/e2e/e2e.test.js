@@ -62,6 +62,16 @@ describe("E2E GET /hello", () => {
     expect(res.status).toBe(200);
     expect(res.data).toBe("Hello world!");
   });
+
+  it("rejects names with too many characters", async () => {
+    const longName = "A".repeat(101);
+    const res = await axios.get(`${baseURL}/hello`, {
+      headers: {
+        "x-name": longName
+      }
+    });
+    expect(res.status).toBe(400);
+  });
 });
 
 describe("E2E POST /hello", () => {
@@ -110,5 +120,15 @@ describe("E2E POST /hello", () => {
     });
     expect(res.status).toBe(200);
     expect(res.data).toBe("Hello world!");
+  });
+
+  it("rejects names with too many characters", async () => {
+    const longName = "A".repeat(101);
+    const res = await axios.post(`${baseURL}/hello`, {}, {
+      headers: {
+        "x-name": longName
+      }
+    });
+    expect(res.status).toBe(400);
   });
 });

@@ -7,14 +7,22 @@ const PORT = process.env.PORT || 3000;
 app.get("/hello", (req, res) => {
   const name = req.headers["x-name"];
 
-  res.send(getGreeting(name));
+  try {
+    res.send(getGreeting(name));
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
 
 app.post("/hello", (req, res) => {
   const name = req.headers["x-name"];
 
-  res.send(getGreeting(name));
-});
+  try {
+    res.send(getGreeting(name));
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
 
 if (require.main === module) {
   app.listen(PORT, () => {
