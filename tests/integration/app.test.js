@@ -8,11 +8,11 @@ describe("GET /hello", () => {
     expect(res.text).toBe("Hello world!");
   });
 
-  it("should return Hello world! From Meriem when x-name header is Meriem", async () => {
-    const res = await request(app)
-      .get("/hello")
-      .set("x-name", "Meriem");
-    expect(res.statusCode).toBe(200);
-    expect(res.text).toBe("Hello world! From Meriem");
-  });
+  it("should return Hello world! when x-name header is Meriem", async () => {
+  const res = await request(app)
+    .get("/hello")
+    .set("x-name", "Meriem");
+  expect(res.statusCode).toBe(200);
+  expect(res.text).toBe("Hello world!"); 
+});
 });
