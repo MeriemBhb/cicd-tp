@@ -21,4 +21,14 @@ describe("E2E GET /hello", () => {
     expect(res.status).toBe(200);
     expect(res.data).toBe("Hello world!");
   });
+
+  it("responds with Hello world! From Meriem when x-name header is Meriem", async () => {
+    const res = await axios.get(`${baseURL}/hello`, {
+      headers: {
+        "x-name": "Meriem"
+      }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toBe("Hello world! From Meriem");
+  });
 });
