@@ -31,6 +31,37 @@ describe("E2E GET /hello", () => {
     expect(res.status).toBe(200);
     expect(res.data).toBe("Hello world! From Meriem");
   });
+
+  it("handles special characters in x-name header", async () => {
+    const res = await axios.get(`${baseURL}/hello`, {
+      headers: {
+        "x-name": "Mériem@#$%^&*()"
+      }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toBe("Hello world! From Mériem@#$%^&*()");
+  });
+
+  it("handles very long names in x-name header", async () => {
+    const longName = "A".repeat(1000);
+    const res = await axios.get(`${baseURL}/hello`, {
+      headers: {
+        "x-name": longName
+      }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toBe(`Hello world! From ${longName}`);
+  });
+
+  it("handles empty string in x-name header", async () => {
+    const res = await axios.get(`${baseURL}/hello`, {
+      headers: {
+        "x-name": ""
+      }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toBe("Hello world!");
+  });
 });
 
 describe("E2E POST /hello", () => {
@@ -41,12 +72,43 @@ describe("E2E POST /hello", () => {
   });
 
   it("responds with Hello world! From Meriem when x-name header is Meriem", async () => {
-const res = await axios.get(`${baseURL}/hello`, {  
-  headers: {
-    "x-name": "Meriem"
-  }
-});
+    const res = await axios.post(`${baseURL}/hello`, {}, {
+      headers: {
+        "x-name": "Meriem"
+      }
+    });
     expect(res.status).toBe(200);
     expect(res.data).toBe("Hello world! From Meriem");
+  });
+
+  it("handles special characters in x-name header", async () => {
+    const res = await axios.post(`${baseURL}/hello`, {}, {
+      headers: {
+        "x-name": "Mériem@#$%^&*()"
+      }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toBe("Hello world! From Mériem@#$%^&*()");
+  });
+
+  it("handles very long names in x-name header", async () => {
+    const longName = "A".repeat(1000);
+    const res = await axios.post(`${baseURL}/hello`, {}, {
+      headers: {
+        "x-name": longName
+      }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toBe(`Hello world! From ${longName}`);
+  });
+
+  it("handles empty string in x-name header", async () => {
+    const res = await axios.post(`${baseURL}/hello`, {}, {
+      headers: {
+        "x-name": ""
+      }
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toBe("Hello world!");
   });
 });
