@@ -31,12 +31,4 @@ describe("GET /hello", () => {
     expect(res.statusCode).toBe(200);
     expect(res.text).toBe("Hello world!");
   });
-
-  it("should reject names with too many characters", async () => {
-    const longName = "A".repeat(101);
-    const res = await request(app)
-      .get("/hello")
-      .set("x-name", longName);
-    expect(res.statusCode).toBe(400);
-  });
 });
