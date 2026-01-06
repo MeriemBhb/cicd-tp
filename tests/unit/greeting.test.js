@@ -8,4 +8,8 @@ describe("getGreeting", () => {
   it("returns the hello world message from Meriem", () => {
     expect(getGreeting("Meriem")).toBe("Hello world! From Meriem");
   });
+
+  it("returns the hello world message for empty string", () => {
+    expect(getGreeting("")).toBe("Hello world!");
+  });
 });
