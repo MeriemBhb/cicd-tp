@@ -1,5 +1,5 @@
 function getGreeting(name) {
-  if (name && name.length > 100) {
+  if (name && name.length >= 100) {
     throw new Error("Name is too long");
   }
 
