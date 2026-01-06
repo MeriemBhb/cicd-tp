@@ -28,7 +28,6 @@ describe("E2E GET /hello", () => {
         "x-name": "Meriem"
       }
     });
-    // Ajoute un test pour l'endpoint GET /hello avec header x-name qui contient "Meriem", doit retourner "Hello world! From Meriem". AI!
     expect(res.status).toBe(200);
     expect(res.data).toBe("Hello world! From Meriem");
   });
