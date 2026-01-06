@@ -4,8 +4,8 @@ const { getGreeting } = require("./greeting");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/hello/:name?", (req, res) => {
-  const name = req.params.name;
+app.get("/hello", (req, res) => {
+  const name = req.headers["x-name"];
 
   res.send(getGreeting(name));
 });
