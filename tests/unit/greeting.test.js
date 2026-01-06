@@ -12,4 +12,8 @@ describe("getGreeting", () => {
   it("returns the hello world message for empty string", () => {
     expect(getGreeting("")).toBe("Hello world!");
   });
+
+  it("returns the hello world message for null input", () => {
+    expect(getGreeting(null)).toBe("Hello world!");
+  });
 });
