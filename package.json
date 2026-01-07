@@ -13,12 +13,13 @@
     "supertest": "^6.3.0"
   },
   "devDependencies": {
+    "allure": "^3.0.0",
     "allure-jest": "^3.4.3",
     "eslint": "^8.0.0",
     "jest": "^29.0.0"
   },
   "engines": {
-    "node": ">=22.19.0"
+    "node": ">=22.0.0"
   },
   "files": [
     ".gitignore",
