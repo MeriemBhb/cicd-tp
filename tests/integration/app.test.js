@@ -1,3 +1,4 @@
+/** @jest-environment allure-jest/node */
 const request = require("supertest");
 const app = require("../../src/server");
 

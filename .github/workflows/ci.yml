@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches: [master]
-  pull_request: 
+  pull_request:
     branches: [master]
 
 jobs:
@@ -12,18 +12,35 @@ jobs:
 
     steps:
       - name: Checkout le repo git
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Installe Node.js
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
+          cache: "npm"
 
       - name: Installe des dépendances
         run: npm ci
-      
-      - name: Execute les test unitaires
+
+      - name: Execute les tests
         run: npm test
 
       - name: Lint le code
         run: npm run lint
+
+      - name: Install Allure Report 3
+        if: always()
+        run: npm install -g allure
+
+      - name: Generate Allure Report
+        if: always() && (hashFiles('allure-results/**') != '')
+        run: allure generate ./allure-results -o ./allure-report --clean
+
+      - name: Upload Allure Report
+        if: always() && (hashFiles('allure-report/**') != '')
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+          retention-days: 7
