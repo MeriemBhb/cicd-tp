@@ -9,11 +9,12 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  pages: write
+  id-token: write
 
 jobs:
   ci:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout le repo git
         uses: actions/checkout@v4
@@ -37,7 +38,7 @@ jobs:
         if: always() && (hashFiles('allure-results/**') != '')
         run: npx allure generate -o allure-report allure-results
 
-      - name: Upload Allure Report
+      - name: Upload Allure Report (artifact)
         if: always() && (hashFiles('allure-report/**') != '')
         uses: actions/upload-artifact@v4
         with:
@@ -45,6 +46,7 @@ jobs:
           path: allure-report
           retention-days: 7
 
+      # commentaire PR
       - name: Comment PR (status + lien)
         if: always() && github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2
@@ -54,3 +56,22 @@ jobs:
             **CI status:** `${{ job.status }}`
             **Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
             **Allure artifact:** `allure-report` (à télécharger depuis le run)
+
+      # préparer l’artefact pour GitHub Pages (seulement sur master)
+      - name: Upload Pages artifact
+        if: always() && github.ref == 'refs/heads/master' && (hashFiles('allure-report/**') != '')
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+  deploy-pages:
+    needs: ci
+    if: always() && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
