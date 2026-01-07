@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [master]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -29,13 +33,9 @@ jobs:
       - name: Lint le code
         run: npm run lint
 
-      - name: Install Allure Report 3
-        if: always()
-        run: npm install -g allure
-
       - name: Generate Allure Report
         if: always() && (hashFiles('allure-results/**') != '')
-        run: allure generate ./allure-results -o ./allure-report --clean
+        run: npx allure generate -o allure-report allure-results
 
       - name: Upload Allure Report
         if: always() && (hashFiles('allure-report/**') != '')
@@ -44,3 +44,13 @@ jobs:
           name: allure-report
           path: allure-report
           retention-days: 7
+
+      - name: Comment PR (status + lien)
+        if: always() && github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: allure
+          message: |
+            **CI status:** `${{ job.status }}`
+            **Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            **Allure artifact:** `allure-report` (à télécharger depuis le run)
