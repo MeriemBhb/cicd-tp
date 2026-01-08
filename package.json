@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint .",
-    "test": "jest",
+    "test": "jest --runInBand",
     "start": "node src/server.js"
   },
   "dependencies": {
