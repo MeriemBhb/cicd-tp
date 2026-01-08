@@ -1,3 +1,4 @@
+/** @jest-environment allure-jest/node */
 const { getGreeting } = require("../../src/greeting");
 
 describe("getGreeting", () => {
